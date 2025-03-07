@@ -1,11 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Add CSS styles dynamically
-        const container = document.getElementById('widget-container');
-        const iframe = container.querySelector('iframe');  // Find the iframe
-    if (iframe) {
-      iframe.style.width = '100%';  // Set the iframe width to 100%
-      iframe.style.height = '50px';  // Set the iframe height as needed
-    }
+
     const style = document.createElement("style");
     style.innerHTML = `
         body {
