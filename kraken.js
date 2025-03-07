@@ -45,21 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
         .ticker img {
             width: 20px;
             height: 20px;
-            margin-right: 5px;
-            margin-left: 5px;
+             margin-right: 4px !important;
+            margin-left: 4px !important;
         }
         .coin-name {
             font-weight: bold;
             font-size: 20px;
-            margin-right: 4px;
-            margin-left: 4px;
+            margin-right: 4px !important;
+            margin-left: 4px !important;
         }
         .coin-symbol {
             font-size: 12px;
             color: gray;
             font-weight: lighter;
-            margin-right: 4px;
-            margin-left: 4px;
+           margin-right: 4px !important;
+            margin-left: 4px !important;
         }
         .powered-by {
             font-size: 12px;
