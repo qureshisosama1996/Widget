@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </span>`;
 
                     if (count % 5 === 0) {
-                        tickerHTML += `<span class="powered-by">Powered by <img src="./krakenlogo.png" alt="Kraken"></span>`;
+                        tickerHTML += `<span class="powered-by">Powered by <img src="./https://qureshisosama1996.github.io/Widget/krakenlogo.png" alt="Kraken"></span>`;
                     }
                     count++;
                 }
