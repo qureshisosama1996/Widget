@@ -27,7 +27,7 @@
             cursor: pointer;
         }
         .ticker-wrapper:hover .ticker {
-             animation-play-state: paused;
+             animation-play-state: paused !important;
              cursor: pointer;
         }
 
@@ -149,7 +149,6 @@
             const ticker = document.querySelector(".ticker");
 
             function restartAnimation() {
-                ticker.style.animation = "none";
                 requestAnimationFrame(() => {
                     ticker.style.animation = "scroll 50s linear infinite";
                 });
@@ -158,13 +157,22 @@
             document.querySelector(".ticker-wrapper").addEventListener("touchstart", function () {
                 ticker.style.animationPlayState = "paused";
             });
-
+          
             document.querySelector(".ticker-wrapper").addEventListener("touchend", function () {
                 ticker.style.animationPlayState = "running";
             });
-
+            function resumeAnimation() {
+              ticker.style.animationPlayState = "running";
+              restartAnimation();
+             }
+            document.addEventListener("touchmove", resumeAnimation);
+             document.addEventListener("scroll", resumeAnimation);
+             document.addEventListener("click", resumeAnimation);
+          document.addEventListener("keydown", resumeAnimation); // Restart on keyboard input
             fetchCryptoPrices();
+            setTimeout(restartAnimation, 100);
             setInterval(fetchCryptoPrices, 30000);
+
         });
  
     </script>
