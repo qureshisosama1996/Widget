@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -26,8 +23,12 @@
             white-space: nowrap;
             animation: scroll 50s linear infinite;
         }
+        .ticker-wrapper:hover {
+            cursor: pointer;
+        }
         .ticker-wrapper:hover .ticker {
              animation-play-state: paused;
+             cursor: pointer;
         }
 
         .ticker span {
@@ -93,34 +94,34 @@
     <script>
         async function fetchCryptoPrices() {
             const krakenSymbols = [
-                "XXBTZUSD", "XETHZUSD", "XXRPZUSD", "SOLUSD", "ADAUSD",
-                "XDGUSD", "TRXUSD", "LINKUSD", "XXLMZUSD", "DOTUSD"
-            ];
+        "XXBTZUSD", "XETHZUSD", "XXRPZUSD", "SOLUSD", "ADAUSD",
+         "XDGUSD", "TRXUSD", "LINKUSD", "XXLMZUSD", "DOTUSD"
+    ];
 
-            // Fetching data from Kraken API
-            const response = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${krakenSymbols.join(",")}`);
-            const data = await response.json();
+    // Fetching data from Kraken API
+    const response = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${krakenSymbols.join(",")}`);
+    const data = await response.json();
 
-            // Mapping Kraken symbols to user-friendly names
-            const symbols = {
-                "XXBTZUSD": { name: "Bitcoin", symbol: "BTC", icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png" },
-                "XETHZUSD": { name: "Ethereum", symbol: "ETH", icon: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
-                "XXRPZUSD": { name: "XRP", symbol: "XRP", icon: "https://cryptologos.cc/logos/xrp-xrp-logo.png" },
-                "SOLUSD": { name: "Solana", symbol: "SOL", icon: "https://cryptologos.cc/logos/solana-sol-logo.png" },
-                "ADAUSD": { name: "Cardano", symbol: "ADA", icon: "https://cryptologos.cc/logos/cardano-ada-logo.png" },
-                "XDGUSD": { name: "Dogecoin", symbol: "DOGE", icon: "https://cryptologos.cc/logos/dogecoin-doge-logo.png" },
-                "TRXUSD": { name: "Tron", symbol: "TRX", icon: "https://cryptologos.cc/logos/tron-trx-logo.png" },
-                "LINKUSD": { name: "Chainlink", symbol: "LINK", icon: "https://cryptologos.cc/logos/chainlink-link-logo.png" },
-                "XXLMZUSD": { name: "Stellar", symbol: "XLM", icon: "https://cryptologos.cc/logos/stellar-xlm-logo.png" },
-                "DOTUSD": { name: "Polkadot", symbol: "DOT", icon: "https://cryptologos.cc/logos/polkadot-new-dot-logo.png" },
-            };
+    // Mapping Kraken symbols to user-friendly names
+    const symbols = {
+        "XXBTZUSD": { name: "Bitcoin", symbol: "BTC", icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png" },
+        "XETHZUSD": { name: "Ethereum", symbol: "ETH", icon: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
+        "XXRPZUSD": { name: "XRP", symbol: "XRP", icon: "https://cryptologos.cc/logos/xrp-xrp-logo.png" },
+        "SOLUSD": { name: "Solana", symbol: "SOL", icon: "https://cryptologos.cc/logos/solana-sol-logo.png" },
+        "ADAUSD": { name: "Cardano", symbol: "ADA", icon: "https://cryptologos.cc/logos/cardano-ada-logo.png" },
+        "XDGUSD": { name: "Dogecoin", symbol: "DOGE", icon: "https://cryptologos.cc/logos/dogecoin-doge-logo.png" },
+        "TRXUSD": { name: "Tron", symbol: "TRX", icon: "https://cryptologos.cc/logos/tron-trx-logo.png" },
+        "LINKUSD": { name: "Chainlink", symbol: "LINK", icon: "https://cryptologos.cc/logos/chainlink-link-logo.png" },
+        "XXLMZUSD": { name: "Stellar", symbol: "XLM", icon: "https://cryptologos.cc/logos/stellar-xlm-logo.png" },
+        "DOTUSD": { name: "Polkadot", symbol: "DOT", icon: "https://cryptologos.cc/logos/polkadot-new-dot-logo.png" },
+    };
             
             let tickerHTML = '';
             let count = 0;
             for (const pair in symbols) {
                 if (data.result[pair]) {
-                    const price = parseFloat(data.result[pair].c[0]);
-                    const openPrice = parseFloat(data.result[pair].o);
+                    const price = parseFloat(data.result[pair].c[0]); // Current price
+                    const openPrice = parseFloat(data.result[pair].o); // Opening price
                     const percentageChange = ((price - openPrice) / openPrice * 100).toFixed(2);
                     const changeClass = percentageChange >= 0 ? 'green' : 'red';
                     const arrow = percentageChange >= 0 
@@ -133,13 +134,17 @@
                         $${price.toFixed(2)}
                         <span class="${changeClass}">${arrow} ${percentageChange}%</span>
                     </span>`;
+                if (count % 5 === 0) {
+                    tickerHTML += `<span class="powered-by">Powered by <img src="https://m8md3yq6wz-45x1-hke.s3.us-east-1.amazonaws.com/krakenlogo.png" alt="Kraken"></span>`;
+                }
+                count++;
+
                 }
             }
-
             const tickerElement = document.getElementById('cryptoTicker');
-            tickerElement.innerHTML = tickerHTML + tickerHTML;
+            tickerElement.innerHTML = tickerHTML + tickerHTML; // Duplicate for seamless scrolling
         }
-
+        
         document.addEventListener("DOMContentLoaded", function () {
             const ticker = document.querySelector(".ticker");
 
@@ -150,14 +155,17 @@
                 });
             }
 
+            document.querySelector(".ticker-wrapper").addEventListener("touchstart", function () {
+                ticker.style.animationPlayState = "paused";
+            });
+
             document.querySelector(".ticker-wrapper").addEventListener("touchend", function () {
                 ticker.style.animationPlayState = "running";
             });
 
-            restartAnimation();
             fetchCryptoPrices();
             setInterval(fetchCryptoPrices, 30000);
         });
+ 
     </script>
 </body>
-</html>
