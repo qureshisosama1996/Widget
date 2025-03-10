@@ -147,7 +147,7 @@
         
         document.addEventListener("DOMContentLoaded", function () {
             const ticker = document.querySelector(".ticker");
-
+              ticker.style.animationPlayState = "running";
             function restartAnimation() {
                 requestAnimationFrame(() => {
                     ticker.style.animation = "scroll 50s linear infinite";
