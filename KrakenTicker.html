@@ -78,6 +78,14 @@
             height: 14px;
             margin-left: 4px;
         }
+        @keyframes scroll {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
     </style>
 </head>
 <body>
@@ -141,52 +149,28 @@ const symbols = {
             tickerElement.innerHTML = tickerHTML + tickerHTML; // Duplicate for seamless scrolling
         }
         
-        document.addEventListener("DOMContentLoaded", function () {
-            const ticker = document.querySelector(".ticker");
-
-            function restartAnimation() {
-                requestAnimationFrame(() => {
-                    ticker.style.animation = "scroll 50s linear infinite";
-                });
-            }
-
-            document.querySelector(".ticker-wrapper").addEventListener("touchstart", function () {
-                ticker.style.animationPlayState = "paused";
-            });
-          
-            document.querySelector(".ticker-wrapper").addEventListener("touchend", function () {
-                ticker.style.animationPlayState = "running";
-            });
-            function resumeAnimation() {
-              ticker.style.animationPlayState = "running";
-              restartAnimation();
-             }
-            document.addEventListener("touchmove", resumeAnimation);
-             document.addEventListener("scroll", resumeAnimation);
-             document.addEventListener("click", resumeAnimation);
-          document.addEventListener("keydown", resumeAnimation); // Restart on keyboard input
-          
         function startScrolling() {
-            const ticker = document.getElementById('cryptoTicker');
-            let speed = 1; // Adjust speed if needed
-            let position = 0;
-
+            const ticker = document.getElementById("cryptoTicker");
             function step() {
-                position -= speed;
-                if (Math.abs(position) >= ticker.scrollWidth / 2) {
-                    position = 0; // Reset for seamless scrolling
+                if (!tickerPaused) {
+                    position -= speed;
+                    if (Math.abs(position) >= ticker.scrollWidth / 2) {
+                        position = 0; // Reset for seamless scrolling
+                    }
+                    ticker.style.transform = `translateX(${position}px)`;
                 }
-                ticker.style.transform = `translateX(${position}px)`;
                 requestAnimationFrame(step);
             }
             step();
         }
 
-        // Fetch data and start scrolling inside iframe
-        fetchCryptoPrices();
-        startScrolling();
-            setInterval(fetchCryptoPrices, 30000);
+        document.querySelector(".ticker-wrapper").addEventListener("mouseenter", () => tickerPaused = true);
+        document.querySelector(".ticker-wrapper").addEventListener("mouseleave", () => tickerPaused = false);
 
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchCryptoPrices();
+            startScrolling();
+            setInterval(fetchCryptoPrices, 30000);
         });
  
     </script>
