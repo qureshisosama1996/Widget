@@ -147,7 +147,9 @@
         
         document.addEventListener("DOMContentLoaded", function () {
             const ticker = document.querySelector(".ticker");
-              ticker.style.animationPlayState = "running";
+                        ticker.style.animation = "none";
+            void ticker.offsetWidth; // Trigger reflow
+            ticker.style.animation = "scroll 50s linear infinite";
             function restartAnimation() {
                 requestAnimationFrame(() => {
                     ticker.style.animation = "scroll 50s linear infinite";
