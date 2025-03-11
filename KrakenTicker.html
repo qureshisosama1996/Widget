@@ -78,14 +78,6 @@
             height: 14px;
             margin-left: 4px;
         }
-        @keyframes scroll {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(-50%);
-            }
-        }
     </style>
 </head>
 <body>
@@ -99,11 +91,11 @@
         "XXBTZUSD", "XETHZUSD", "XXRPZUSD", "SOLUSD", "ADAUSD",
          "XDGUSD", "TRXUSD", "LINKUSD", "XXLMZUSD", "DOTUSD"
     ];
-
+  //
     // Fetching data from Kraken API
     const response = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${krakenSymbols.join(",")}`);
     const data = await response.json();
-
+    // Mapping Kraken symbols to user-friendly names
     const baseIconUrl = "https://assets.kraken.com/marketing/web/icons-uni-webp/";
 
 const symbols = {
@@ -118,6 +110,7 @@ const symbols = {
     "XXLMZUSD": { name: "Stellar", symbol: "XLM", icon: `${baseIconUrl}s_xlm.webp` },
     "DOTUSD": { name: "Polkadot", symbol: "DOT", icon: `${baseIconUrl}s_dot.webp` },
 };
+
             
             let tickerHTML = '';
             let count = 0;
@@ -150,9 +143,7 @@ const symbols = {
         
         document.addEventListener("DOMContentLoaded", function () {
             const ticker = document.querySelector(".ticker");
-                        ticker.style.animation = "none";
-            void ticker.offsetWidth; // Trigger reflow
-            ticker.style.animation = "scroll 50s linear infinite";
+
             function restartAnimation() {
                 requestAnimationFrame(() => {
                     ticker.style.animation = "scroll 50s linear infinite";
@@ -174,8 +165,26 @@ const symbols = {
              document.addEventListener("scroll", resumeAnimation);
              document.addEventListener("click", resumeAnimation);
           document.addEventListener("keydown", resumeAnimation); // Restart on keyboard input
-            fetchCryptoPrices();
-            setTimeout(restartAnimation, 100);
+          
+        function startScrolling() {
+            const ticker = document.getElementById('cryptoTicker');
+            let speed = 1; // Adjust speed if needed
+            let position = 0;
+
+            function step() {
+                position -= speed;
+                if (Math.abs(position) >= ticker.scrollWidth / 2) {
+                    position = 0; // Reset for seamless scrolling
+                }
+                ticker.style.transform = `translateX(${position}px)`;
+                requestAnimationFrame(step);
+            }
+            step();
+        }
+
+        // Fetch data and start scrolling inside iframe
+        fetchCryptoPrices();
+        startScrolling();
             setInterval(fetchCryptoPrices, 30000);
 
         });
