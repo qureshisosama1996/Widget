@@ -102,19 +102,20 @@
     const response = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${krakenSymbols.join(",")}`);
     const data = await response.json();
 
-    // Mapping Kraken symbols to user-friendly names
-    const symbols = {
-        "XXBTZUSD": { name: "Bitcoin", symbol: "BTC", icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png" },
-        "XETHZUSD": { name: "Ethereum", symbol: "ETH", icon: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
-        "XXRPZUSD": { name: "XRP", symbol: "XRP", icon: "https://cryptologos.cc/logos/xrp-xrp-logo.png" },
-        "SOLUSD": { name: "Solana", symbol: "SOL", icon: "https://cryptologos.cc/logos/solana-sol-logo.png" },
-        "ADAUSD": { name: "Cardano", symbol: "ADA", icon: "https://cryptologos.cc/logos/cardano-ada-logo.png" },
-        "XDGUSD": { name: "Dogecoin", symbol: "DOGE", icon: "https://cryptologos.cc/logos/dogecoin-doge-logo.png" },
-        "TRXUSD": { name: "Tron", symbol: "TRX", icon: "https://cryptologos.cc/logos/tron-trx-logo.png" },
-        "LINKUSD": { name: "Chainlink", symbol: "LINK", icon: "https://cryptologos.cc/logos/chainlink-link-logo.png" },
-        "XXLMZUSD": { name: "Stellar", symbol: "XLM", icon: "https://cryptologos.cc/logos/stellar-xlm-logo.png" },
-        "DOTUSD": { name: "Polkadot", symbol: "DOT", icon: "https://cryptologos.cc/logos/polkadot-new-dot-logo.png" },
-    };
+    const baseIconUrl = "https://assets.kraken.com/marketing/web/icons-uni-webp/";
+
+const symbols = {
+    "XXBTZUSD": { name: "Bitcoin", symbol: "BTC", icon: `${baseIconUrl}s_btc.webp` },
+    "XETHZUSD": { name: "Ethereum", symbol: "ETH", icon: `${baseIconUrl}s_eth.webp` },
+    "XXRPZUSD": { name: "XRP", symbol: "XRP", icon: `${baseIconUrl}s_xrp.webp` },
+    "SOLUSD": { name: "Solana", symbol: "SOL", icon: `${baseIconUrl}s_sol.webp` },
+    "ADAUSD": { name: "Cardano", symbol: "ADA", icon: `${baseIconUrl}s_ada.webp` },
+    "XDGUSD": { name: "Dogecoin", symbol: "DOGE", icon: `${baseIconUrl}s_doge.webp` },
+    "TRXUSD": { name: "Tron", symbol: "TRX", icon: `${baseIconUrl}s_trx.webp` },
+    "LINKUSD": { name: "Chainlink", symbol: "LINK", icon: `${baseIconUrl}s_link.webp` },
+    "XXLMZUSD": { name: "Stellar", symbol: "XLM", icon: `${baseIconUrl}s_xlm.webp` },
+    "DOTUSD": { name: "Polkadot", symbol: "DOT", icon: `${baseIconUrl}s_dot.webp` },
+};
             
             let tickerHTML = '';
             let count = 0;
