@@ -78,14 +78,6 @@
             height: 14px;
             margin-left: 4px;
         }
-        @keyframes scroll {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(-50%);
-            }
-        }
     </style>
 </head>
 <body>
@@ -166,7 +158,8 @@ const symbols = {
 
        document.querySelector(".ticker-wrapper").addEventListener("mouseenter", () => tickerPaused = true);
         document.querySelector(".ticker-wrapper").addEventListener("mouseleave", () => tickerPaused = false);
-
+       document.querySelector(".ticker-wrapper").addEventListener("touchstart", () => tickerPaused = true);
+document.querySelector(".ticker-wrapper").addEventListener("touchend", () => tickerPaused = false);
 
         document.addEventListener("DOMContentLoaded", () => {
             fetchCryptoPrices();
