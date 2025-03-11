@@ -164,8 +164,10 @@ const symbols = {
             step();
         }
 
-        document.querySelector(".ticker-wrapper").addEventListener("mouseenter", () => tickerPaused = true);
+       document.querySelector(".ticker-wrapper").addEventListener("mouseenter", () => tickerPaused = true);
         document.querySelector(".ticker-wrapper").addEventListener("mouseleave", () => tickerPaused = false);
+        document.querySelector(".ticker-wrapper").addEventListener("touchstart", () => tickerPaused = true);
+        document.querySelector(".ticker-wrapper").addEventListener("touchend", () => tickerPaused = false);
 
         document.addEventListener("DOMContentLoaded", () => {
             fetchCryptoPrices();
