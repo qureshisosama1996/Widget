@@ -85,9 +85,9 @@
     </div>
     
     <script>
+       let position = 0;
         let tickerPaused = false;
-        let position = 0;
-        let speed = 0.5;
+        const speedPxPerSec = 50;
 
         async function fetchCryptoPrices() {
             const krakenSymbols = [
@@ -144,11 +144,16 @@ const symbols = {
             tickerElement.innerHTML = tickerHTML + tickerHTML; // Duplicate for seamless scrolling
         }
 
-        function startScrolling() {
+       function startScrolling() {
             const ticker = document.getElementById("cryptoTicker");
-            function step() {
+            let lastTime = performance.now();
+
+            function step(timestamp) {
                 if (!tickerPaused) {
-                    position -= speed;
+                    const deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
+                    lastTime = timestamp;
+                    position -= speedPxPerSec * deltaTime; // Move based on time elapsed
+
                     if (Math.abs(position) >= ticker.scrollWidth / 2) {
                         position = 0; // Reset for seamless scrolling
                     }
@@ -156,8 +161,9 @@ const symbols = {
                 }
                 requestAnimationFrame(step);
             }
-            step();
+            requestAnimationFrame(step);
         }
+
 
         document.querySelector(".ticker-wrapper").addEventListener("mouseenter", () => tickerPaused = true);
         document.querySelector(".ticker-wrapper").addEventListener("mouseleave", () => tickerPaused = false);
