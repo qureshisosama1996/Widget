@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <style>
         body {
-            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-family: Inter, sans-serif;
             background-color: white;
             color: black;
             overflow: hidden;
@@ -19,7 +19,7 @@
             border-bottom: 1px solid #ccc;
         }
         .ticker {
-             display: flex;
+            display: flex;
             white-space: nowrap;
             will-change: transform;
             transform: translate3d(0, 0, 0);
@@ -80,11 +80,15 @@
     </style>
 </head>
 <body>
-    <div class="ticker-wrapper" onclick="window.open('https://kraken.pxf.io/c/6063359/687155/10583', '_blank')">
+    <div class="ticker-wrapper">
         <div class="ticker" id="cryptoTicker"></div>
     </div>
     
     <script>
+        let tickerPaused = false;
+        let position = 0;
+        let speed = 1;
+
         async function fetchCryptoPrices() {
             const krakenSymbols = [
         "XXBTZUSD", "XETHZUSD", "XXRPZUSD", "SOLUSD", "ADAUSD",
@@ -139,7 +143,7 @@ const symbols = {
             const tickerElement = document.getElementById('cryptoTicker');
             tickerElement.innerHTML = tickerHTML + tickerHTML; // Duplicate for seamless scrolling
         }
-        
+
         function startScrolling() {
             const ticker = document.getElementById("cryptoTicker");
             function step() {
@@ -155,16 +159,14 @@ const symbols = {
             step();
         }
 
-       document.querySelector(".ticker-wrapper").addEventListener("mouseenter", () => tickerPaused = true);
+        document.querySelector(".ticker-wrapper").addEventListener("mouseenter", () => tickerPaused = true);
         document.querySelector(".ticker-wrapper").addEventListener("mouseleave", () => tickerPaused = false);
-       document.querySelector(".ticker-wrapper").addEventListener("touchstart", () => tickerPaused = true);
-document.querySelector(".ticker-wrapper").addEventListener("touchend", () => tickerPaused = false);
-
+        document.querySelector(".ticker-wrapper").addEventListener("touchstart", () => tickerPaused = true);
+        document.querySelector(".ticker-wrapper").addEventListener("touchend", () => tickerPaused = false);
         document.addEventListener("DOMContentLoaded", () => {
             fetchCryptoPrices();
             startScrolling();
             setInterval(fetchCryptoPrices, 30000);
         });
- 
     </script>
 </body>
